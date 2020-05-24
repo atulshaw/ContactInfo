@@ -31,9 +31,165 @@ ContactInfo.Service
 
 The Service layer holds interfaces with common operations, such as Insert, Delete, Update, and Select. Also, this layer is used to communicate between the UI layer and repository layer. The Service layer also could hold business logic for an entity. In this layer, service interfaces are kept separate from its implementation, keeping loose coupling and separation of concerns in mind.
 
+I created an interface named IContactInfoService. This interface holds all methods signature which accesses by external layer. The following code snippet is for the same (IContactInfoService.cs).
+
+using ContactInfo.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ContactInfo.Service.Interface
+{
+    public interface IContactInfoService
+    {
+        IEnumerable<tblContactInfo> GetAllContactInfo();
+        bool SaveContactInfo(tblContactInfo contdetails);
+        bool UpdateContactInfo(tblContactInfo contdetails);
+        bool RemoveContact(int ContactID);
+    }
+}
+
+Now, this IContactInfoService interface implements on a class named ContactInfoService. The following code snippet is for the same(ContactInfoService.cs).
+
+using ContactInfo.Data;
+using ContactInfo.Data.Interface;
+using ContactInfo.Service.Interface;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ContactInfo.Service.Implementation
+{
+    public class ContactInfoService : IContactInfoService
+    {
+        protected IContactInfoRepository _repository;
+
+        public ContactInfoService(IContactInfoRepository repo)
+        {
+            _repository = repo;
+        }
+
+        public IEnumerable<tblContactInfo> GetAllContactInfo()
+        {
+            return _repository.GetAllContactInfo();
+        }
+        public bool SaveContactInfo(tblContactInfo contdetails)
+        {
+            return _repository.SaveContactInfo(contdetails);
+        }
+        public bool UpdateContactInfo(tblContactInfo contdetails)
+        {
+            return _repository.UpdateContactInfo(contdetails);
+        }
+        public bool RemoveContact(int ContactID)
+    	{
+            return _repository.RemoveContact(ContactID);
+        }
+    }
+}
+
 ContactInfo.Data
 
 This layer creates an abstraction between the domain entities and business logic of an application. In this layer, I typically added interfaces that provide object saving and retrieving behavior typically by involving a database. This layer consists of the data access pattern, which is a more loosely coupled approach to data access. I also created a generic repository, and add queries to retrieve data from the source, map the data from data source to a business entity, and persist changes in the business entity to the data source.
+
+I created an interface named IContactInfoRepository. This interface holds all methods signature which accesses by external layer. The following code snippet is for the same (IContactInfoRepository.cs).
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ContactInfo.Data.Interface
+{
+    public interface IContactInfoRepository
+    {
+        IEnumerable<tblContactInfo> GetAllContactInfo();
+        bool SaveContactInfo(tblContactInfo contdetails);
+        bool UpdateContactInfo(tblContactInfo contdetails);
+        bool RemoveContact(int ContactID);        
+    }
+}
+
+Now, this IContactInfoRepository interface implements on a class named ContactInfoRepository. The following code snippet is for the same(ContactInfoRepository.cs).
+
+using ContactInfo.Data.Interface;
+using ContactInfo.Data.Common;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+
+namespace ContactInfo.Data.Implementation
+{
+    public class ContactInfoRepository : GenericRepository<tblContactInfo>, IContactInfoRepository
+    {        
+        public ContactInfoRepository(IUnitOfWork context): base(context)
+        {
+          
+        }        
+        public IEnumerable<tblContactInfo> GetAllContactInfo()
+        {
+           return GetAll().AsQueryable().OrderByDescending(x => x.ID);
+        }
+        public bool SaveContactInfo(tblContactInfo contdetails)
+        {
+            try
+            {
+                Add(contdetails);
+                Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }       
+        public bool UpdateContactInfo(tblContactInfo contdetails)
+        {
+            try
+            {
+                var contactinfo = (from getContdetails in (FindBy(x => x.ID == contdetails.ID)) select getContdetails).FirstOrDefault();
+                contactinfo.Status = contdetails.Status;
+                contactinfo.FirstName = contdetails.FirstName;
+                contactinfo.LastName = contdetails.LastName;
+                contactinfo.PhoneNumber = contdetails.PhoneNumber;
+                contactinfo.Email = contdetails.Email;
+                Update(contactinfo, contactinfo.ID);
+                Save();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool RemoveContact(int ContactID)
+        {
+            try
+            {
+                var delContact = (from delContactDetails in (FindBy(x => x.ID == ContactID)) select delContactDetails).ToList();
+                if(delContact.Count > 0)
+                {
+                    Delete(delContact.FirstOrDefault());
+                    Save();                   
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+    }
+}
 
 ContactInfo.Web
 
@@ -63,7 +219,16 @@ In the test project, I have created a class called ContactInfoControllerTest. In
 
 In the test setup, I am creating instance of TestContext class and then setting up the database with the initial values. Also in the test setup, instance of Controller class is created. 
 
-We can right tests for Insert, Delete, and Update also. As of now I have written test to verify that database is getting created along with the initialized data.
+       [TestMethod]
+        public async Task GetAllContactDetails_Return_Test()
+        {
+            var result = await _controller.GetDetails();
+            Assert.IsNotNull(result);
+            var numberOfRecords = result.ToList().Count;
+            Assert.AreEqual(2, numberOfRecords);
+        }
+
+In the test above we are calling the GetDetails method and then verifying the number of records. In ideal condition above test should be passed. 
 
 Instructions to run the application :-
 

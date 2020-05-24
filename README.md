@@ -198,7 +198,7 @@ Instructions to run the application :-
 2. Open ContactInfo.API.sln with Visual Studio 2017.
 3. Right click on the solution and go to the properties.Select multiple startup projects radio button and choose contactInfo.API and ContactInfo.Web prject.Action for both the projects should be Start.
 4. Go to the ContactInfo.Web project and right click on ContactInfo.html inside the pages folder then select Set as Start Page.
-4. Execute the below script in the database.Added the same below query in the DB script folder.
+4. Create a database(like ContactInfo) in SQL Server and excute the below script. Added the same query in the DB script folder.
 
 	
 		CREATE TABLE [dbo].[tblContactInfo](
@@ -210,7 +210,7 @@ Instructions to run the application :-
 		[Status] [bit] NULL,
 		CONSTRAINT [PK_tblContactInfo] PRIMARY KEY CLUSTERED 
         	([ID] ASC)
-        	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON,ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]) ON [PRIMARY]
+        	WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON,ALLOW_PAGE_LOCKS = ON)                   ON [PRIMARY]) ON [PRIMARY]
 	
 
 5. Please change the connection string(Data Source,Initial Catalog,UserId,Password) in web.config file of ContactInfo.API project.

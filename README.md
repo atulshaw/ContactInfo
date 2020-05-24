@@ -200,30 +200,18 @@ Instructions to run the application :-
 4. Go to the ContactInfo.Web project and right click on ContactInfo.html inside the pages folder then select Set as Start Page.
 4. Execute the below script in the database.Added the same below query in the DB script folder.
 
-CREATE TABLE [dbo].[tblContactInfo](
-
-	[ID] [int] IDENTITY(1,1) NOT NULL,
 	
-	[FirstName] [varchar](100) NULL,
-	
-	[LastName] [varchar](100) NULL,
-	
-	[Email] [varchar](100) NULL,
-	
-	[PhoneNumber] [varchar](50) NULL,
-	
+	CREATE TABLE [dbo].[tblContactInfo](
+	[ID] [int] IDENTITY(1,1) NOT NULL,	
+	[FirstName] [varchar](100) NULL,	
+	[LastName] [varchar](100) NULL,	
+	[Email] [varchar](100) NULL,	
+	[PhoneNumber] [varchar](50) NULL,	
 	[Status] [bit] NULL,
-	
- CONSTRAINT [PK_tblContactInfo] PRIMARY KEY CLUSTERED 
- 
-(
-	[ID] ASC
-	
-)
-
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-
-) ON [PRIMARY]
+	CONSTRAINT [PK_tblContactInfo] PRIMARY KEY CLUSTERED 
+        ([ID] ASC)
+        WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON
+        [PRIMARY]) ON [PRIMARY]
 
 5. Please change the connection string(Data Source,Initial Catalog,UserId,Password) in web.config file of ContactInfo.API project.
 

@@ -1,6 +1,6 @@
 # ContactInfo
 
-This project is created for maintaining the contact information.I have Created five projects in a solution.Four projects used to implement DIP with generic repository pattern and Structure map. These are:
+This project is created for maintaining the contact information.I have Created five projects in a solution. Four projects used to implement Dependency Injection Principle (DIP) with generic repository pattern and Structure map. These are:
 
 ContactInfo.API (Web API)
 
@@ -33,7 +33,7 @@ The Service layer holds interfaces with common operations, such as Insert, Delet
 
 ContactInfo.Data
 
-This layer creates an abstraction between the domain entities and business logic of an application. In this layer, we typically add interfaces that provide object saving and retrieving behavior typically by involving a database. This layer consists of the data access pattern, which is a more loosely coupled approach to data access. We also create a generic repository, and add queries to retrieve data from the source, map the data from data source to a business entity, and persist changes in the business entity to the data source.
+This layer creates an abstraction between the domain entities and business logic of an application. In this layer, I typically added interfaces that provide object saving and retrieving behavior typically by involving a database. This layer consists of the data access pattern, which is a more loosely coupled approach to data access. I also created a generic repository, and add queries to retrieve data from the source, map the data from data source to a business entity, and persist changes in the business entity to the data source.
 
 ContactInfo.Web
 

@@ -39,7 +39,7 @@ ContactInfo.Web
 
 The ContactInfo.Web is the front end layer in this architecture and consists of the user interface. This user interface is often a graphical one accessible through a web browser or web-based application and which displays content and information useful to an end user. This ContactInfo.Web project contains such as HTML5, JavaScript, CSS, or through other popular web development frameworks, and communicates with others layers through API calls.
 
-Test Project
+ContactInfo.Test
 
 I have created a test project by selection Unit Test project template from the Test project tab. To start writing test, very first in the unit test project I have added following references
 

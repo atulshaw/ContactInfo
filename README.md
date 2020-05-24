@@ -63,18 +63,7 @@ In the test project, I have created a class called ContactInfoControllerTest. In
 
 In the test setup, I am creating instance of TestContext class and then setting up the database with the initial values. Also in the test setup, instance of Controller class is created. 
 
- 	[TestMethod]
-        public async Task GetAllContactDetails_Return_Test()
-        {
-            var result = await _controller.GetDetails();
-            Assert.IsNotNull(result);
-            var numberOfRecords = result.ToList().Count;
-            Assert.AreEqual(2, numberOfRecords);
-        }
-	
-In the test above I am calling the GetDetails method of the Controller class and then verifying the number of records. In ideal condition above test should be passed. You can verify the test result in Test-Window-Test Explorer.We can right tests for Insert, Delete, and Update also. As of now I have written test to verify that database is getting created along with the initialized data. 
-
-
+We can right tests for Insert, Delete, and Update also. As of now I have written test to verify that database is getting created along with the initialized data.
 
 Instructions to run the application :-
 

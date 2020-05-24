@@ -33,39 +33,39 @@ The Service layer holds interfaces with common operations, such as Insert, Delet
 
 I created an interface named IContactInfoService. This interface holds all methods signature which accesses by external layer. The following code snippet is for the same (IContactInfoService.cs).
 
-using ContactInfo.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+	using ContactInfo.Data;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
 
-namespace ContactInfo.Service.Interface
-{
-    public interface IContactInfoService
-    {
+	namespace ContactInfo.Service.Interface
+	{
+    	public interface IContactInfoService
+    	{
         IEnumerable<tblContactInfo> GetAllContactInfo();
         bool SaveContactInfo(tblContactInfo contdetails);
         bool UpdateContactInfo(tblContactInfo contdetails);
         bool RemoveContact(int ContactID);
-    }
-}
+    	}
+	}
 
 Now, this IContactInfoService interface implements on a class named ContactInfoService. The following code snippet is for the same(ContactInfoService.cs).
 
-using ContactInfo.Data;
-using ContactInfo.Data.Interface;
-using ContactInfo.Service.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+	using ContactInfo.Data;
+	using ContactInfo.Data.Interface;
+	using ContactInfo.Service.Interface;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
 
-namespace ContactInfo.Service.Implementation
-{
-    public class ContactInfoService : IContactInfoService
-    {
+	namespace ContactInfo.Service.Implementation
+	{
+    	public class ContactInfoService : IContactInfoService
+    	{
         protected IContactInfoRepository _repository;
 
         public ContactInfoService(IContactInfoRepository repo)
@@ -90,7 +90,7 @@ namespace ContactInfo.Service.Implementation
             return _repository.RemoveContact(ContactID);
         }
     }
-}
+	}
 
 ContactInfo.Data
 
@@ -118,17 +118,6 @@ I created an interface named IContactInfoRepository. This interface holds all me
 
 Now, this IContactInfoRepository interface implements on a class named ContactInfoRepository. The following code snippet is for the same(ContactInfoRepository.cs).
 
-using ContactInfo.Data.Interface;
-using ContactInfo.Data.Common;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-
-namespace ContactInfo.Data.Implementation
-{
     public class ContactInfoRepository : GenericRepository<tblContactInfo>, IContactInfoRepository
     {        
         public ContactInfoRepository(IUnitOfWork context): base(context)
@@ -190,7 +179,7 @@ namespace ContactInfo.Data.Implementation
         }
 
     }
-}
+
 
 ContactInfo.Web
 

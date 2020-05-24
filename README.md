@@ -2,7 +2,7 @@
 
 This project is created for maintaining the contact information.I have Created five projects in a solution.Four projects used to implement DIP with generic repository pattern and Structure map. These are:
 
-ContactInfo.API.
+ContactInfo.API (Web API)
 
 ContactInfo.Data (class library)
 
@@ -23,11 +23,58 @@ Benefits of using this structure
 4.Improves the readability.
 
 
-The architecture is dividing the project into three layers that are User interface layer, business layer and data(database) layer where we separate UI, logic, and data in three divisions. If user wants to change the database then he has to only make a change in the data layer, rest everything will be remains the same.
+ContactInfo.API
 
-A service layer is an additional layer in an application that mediates communication between a controller and repository layer. The service layer contains business logic. The benefit for this layer creates a lose coupling. We can call this layer from other Presentation layer.
+For a Web application, it represents the Web API. This layer has an implementation of the dependency injection principle so that the application builds a loosely coupled structure and can communicate to the internal layer via interfaces.
 
-Data Layer - The Service Layer exposes Interfaces to be implemented in the Data Access Layer so we get the "abstraction". The thing we will do is to create the DbContext class that will be responsible to access the database. 
+ContactInfo.Service
+
+The Service layer holds interfaces with common operations, such as Insert, Delete, Update, and Select. Also, this layer is used to communicate between the UI layer and repository layer. The Service layer also could hold business logic for an entity. In this layer, service interfaces are kept separate from its implementation, keeping loose coupling and separation of concerns in mind.
+
+ContactInfo.Data
+
+This layer creates an abstraction between the domain entities and business logic of an application. In this layer, we typically add interfaces that provide object saving and retrieving behavior typically by involving a database. This layer consists of the data access pattern, which is a more loosely coupled approach to data access. We also create a generic repository, and add queries to retrieve data from the source, map the data from data source to a business entity, and persist changes in the business entity to the data source.
+
+ContactInfo.Web
+
+The ContactInfo.Web is the front end layer in this architecture and consists of the user interface. This user interface is often a graphical one accessible through a web browser or web-based application and which displays content and information useful to an end user. This ContactInfo.Web project contains such as HTML5, JavaScript, CSS, or through other popular web development frameworks, and communicates with others layers through API calls.
+
+Test Project
+
+I have created a test project by selection Unit Test project template from the Test project tab. To start writing test, very first in the unit test project I have added following references
+
+Reference of the API project
+Reference of the Data project
+Reference of the Service project
+Entity framework package
+
+In the test project, I have created a class called ContactInfoControllerTest. Inside the unit test class initialize the test as shown in listing below,
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _connection = Effort.DbConnectionFactory.CreateTransient();
+            _testDbContext = new TestContext();
+            _testUnitOfWork = new UnitOfWork(_testDbContext);
+            _contactInfoRepository = new ContactInfoRepository(_testUnitOfWork);
+            _contactInfoService = new ContactInfoService(_contactInfoRepository);
+            _controller = new ContactInfoController(_contactInfoService);
+        }
+
+In the test setup, I am creating instance of TestContext class and then setting up the database with the initial values. Also in the test setup, instance of Controller class is created. 
+
+ 	[TestMethod]
+        public async Task GetAllContactDetails_Return_Test()
+        {
+            var result = await _controller.GetDetails();
+            Assert.IsNotNull(result);
+            var numberOfRecords = result.ToList().Count;
+            Assert.AreEqual(2, numberOfRecords);
+        }
+	
+In the test above I am calling the GetDetails method of the Controller class and then verifying the number of records. In ideal condition above test should be passed. You can verify the test result in Test-Window-Test Explorer.We can right tests for Insert, Delete, and Update also. As of now I have written test to verify that database is getting created along with the initialized data. 
+
+
 
 Instructions to run the application :-
 
@@ -66,7 +113,7 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW
 
 <connectionStrings>
 	
-    <add name="ContactInfoEntities" connectionString="metadata=res://*/ContactInfo.csdl|res://*/ContactInfo.ssdl|res://*/ContactInfo.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=XXXXXXXXX;initial catalog=XXXXXXXX;persist security info=True;user id=XXXXX;password=XXXXXXX;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+    <add name="ContactInfoEntities" 	connectionString="metadata=res://*/ContactInfo.csdl|res://*/ContactInfo.ssdl|res://*/ContactInfo.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=XXXXXXXXX;initial catalog=XXXXXXXX;persist security info=True;user id=XXXXX;password=XXXXXXX;MultipleActiveResultSets=True;App=EntityFramework&quot;" providerName="System.Data.EntityClient" />
 		
   </connectionStrings>
 

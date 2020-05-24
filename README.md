@@ -198,7 +198,7 @@ Instructions to run the application :-
 2. Open ContactInfo.API.sln with Visual Studio 2017.
 3. Right click on the solution and go to the properties.Select multiple startup projects radio button and choose contactInfo.API and ContactInfo.Web prject.Action for both the projects should be Start.
 4. Go to the ContactInfo.Web project and right click on ContactInfo.html inside the pages folder then select Set as Start Page.
-4. Create a database(like ContactInfo) in SQL Server and excute the below script. Added the same query in the DB script folder.
+4. Create a database(like ContactInfo) in SQL Server and excute the below script. Below Query is availabe in the project DB script folder.
 
 	
 		CREATE TABLE [dbo].[tblContactInfo](

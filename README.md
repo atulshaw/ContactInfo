@@ -33,39 +33,21 @@ The Service layer holds interfaces with common operations, such as Insert, Delet
 
 I created an interface named IContactInfoService. This interface holds all methods signature which accesses by external layer. The following code snippet is for the same (IContactInfoService.cs).
 
-	using ContactInfo.Data;
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-
-	namespace ContactInfo.Service.Interface
-	{
-    	public interface IContactInfoService
-    	{
+	
+    public interface IContactInfoService
+    {
         IEnumerable<tblContactInfo> GetAllContactInfo();
         bool SaveContactInfo(tblContactInfo contdetails);
         bool UpdateContactInfo(tblContactInfo contdetails);
         bool RemoveContact(int ContactID);
-    	}
-	}
+    }
+	
 
 Now, this IContactInfoService interface implements on a class named ContactInfoService. The following code snippet is for the same(ContactInfoService.cs).
 
-	using ContactInfo.Data;
-	using ContactInfo.Data.Interface;
-	using ContactInfo.Service.Interface;
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-
-	namespace ContactInfo.Service.Implementation
-	{
-    	public class ContactInfoService : IContactInfoService
-    	{
+	
+    public class ContactInfoService : IContactInfoService
+    {
         protected IContactInfoRepository _repository;
 
         public ContactInfoService(IContactInfoRepository repo)
@@ -90,7 +72,7 @@ Now, this IContactInfoService interface implements on a class named ContactInfoS
             return _repository.RemoveContact(ContactID);
         }
     }
-	}
+	
 
 ContactInfo.Data
 
@@ -98,23 +80,13 @@ This layer creates an abstraction between the domain entities and business logic
 
 I created an interface named IContactInfoRepository. This interface holds all methods signature which accesses by external layer. The following code snippet is for the same (IContactInfoRepository.cs).
     
-        using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-
-	namespace ContactInfo.Data.Interface
-	{
-    	public interface IContactInfoRepository
-    	{
+    public interface IContactInfoRepository
+    {
         IEnumerable<tblContactInfo> GetAllContactInfo();
         bool SaveContactInfo(tblContactInfo contdetails);
         bool UpdateContactInfo(tblContactInfo contdetails);
         bool RemoveContact(int ContactID);        
-    	}
-	}
-
+    }
 
 Now, this IContactInfoRepository interface implements on a class named ContactInfoRepository. The following code snippet is for the same(ContactInfoRepository.cs).
 
